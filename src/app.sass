@@ -1,0 +1,101 @@
+.graticule
+  fill: none
+  stroke: #000
+  stroke-opacity: .3
+  stroke-width: .5px
+
+
+.graticule-outline
+  fill: none
+  stroke: #333
+  stroke-width: 1.5px
+
+canvas
+  position: fixed
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  z-index: -1
+
+section
+  position: relative
+  display: block
+  padding: 40px
+  background: rgba(255,255,255, 0.5)
+  width: 50%
+  max-width: 500px
+  margin: 75vh auto
+  z-index: 10
+
+#container
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  box-sizing: border-box
+
+
+
+
+.globe
+  stroke: #ccc
+  stroke-width: 1px
+
+.water
+  fill: #fff
+
+
+.land
+  fill: #ccc
+  stroke: #fff
+  stroke-width: 0.7px
+  box-shadow: 2px 4px 8px rgba(0,0,0,1)
+
+
+.land:hover
+  fill:#aaa
+  stroke-width: 1px
+
+
+.focused
+  fill: orange
+
+.focused:hover
+  fill: darkorange
+
+
+select
+  position: absolute
+  top: 20px
+  left: 580px
+  border: solid #ccc 1px
+  padding: 3px
+  box-shadow: inset 1px 1px 2px #ddd8dc
+
+
+.countryTooltip
+  position: absolute
+  display: none
+  pointer-events: none
+  background: #fff
+  padding: 5px
+  text-align: left
+  border: solid #ccc 1px
+  color: #666
+  font-size: 14px
+  font-family: sans-serif
+
+
+.circle
+  fill: rgba(255, 100, 0, 0.2)
+  stroke: rgba(200, 80, 0, 0.4)
+  stroke-width: 1px
+
+.marker
+  fill: lime
+
+
+.tester
+  stroke: rgba(0,0,0, 1)
+  stroke-width: 2px
+  fill: rgba(0,0,150, 0.2)
