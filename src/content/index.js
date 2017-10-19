@@ -11,13 +11,13 @@ const Content = {
 	parts: [
 		{
 			title: 'Section title',
-			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?'
+			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			map: {
-				country: countries.filter(country => country.name.toLowerCase().includes('australia'))[0],
+				// country: countries.filter(country => country.name.toLowerCase().includes('australia'))[0],
 				scale: 0.9,
 				circle: 2.5,
 				origin: [100, 100],
-			}
+			},
 		},
 
 	],

@@ -4,6 +4,19 @@
 import start from './startApp'
 import layout from './layout'
 
+import world from './world-110m.json'
+import countryNames from './world-country-names.json'
+import mapTopo from './mapTopo.json'
+import mapGeo from './mapGeo.json'
+
+const d3 = Object.assign({}, 
+	require('d3-geo'), 
+	require('d3-selection'),
+	// require('d3-queue'),
+	// require('d3-request')
+)
+
+console.log(d3)
 
 // Start and Render app
 const APP = start({ inner: layout() })
@@ -14,16 +27,16 @@ APP.render()
 const width = window.innerWidth;
 const height = window.innerHeight;
 const sens = 0.25;
-const focused;
+let focused = null
 
 // Setting projection
-const projection = d3.geo.orthographic()
+const projection = d3.geoOrthographic()
 	.scale(Math.min(width, height) * 0.5)
 	.rotate([0, 0])
 	.translate([width / 2, height / 2])
 	.clipAngle(90);
 
-const path = d3.geo.path()
+const path = d3.geoPath()
 	.projection(projection);
 
 // SVG container
@@ -42,7 +55,7 @@ svg.append("path")
 
 // adding globe grid lines
 svg.append('path')
-	.datum(d3.geo.graticule())
+	.datum(d3.geoGraticule())
 	.attr('class', 'graticule')
 	.attr('d', path)
 
@@ -51,23 +64,23 @@ const countryTooltip = d3.select("#container").append("div").attr("class", "coun
 // const countryList = d3.select("#container").append("select").attr("name", "countries");
 
 // input data then render by calling the ready function
-queue()
-	.defer(d3.json, "world-110m.json")
-	.defer(d3.tsv, "world-country-names.tsv")
-	.defer(d3.json, "map.topojson")
-	.defer(d3.json, "map.geojson")
-	// .defer(d3.json, 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson')
-	// .defer(d3.json, 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson')
-	.await(ready);
+// d3.queue()
+// 	.defer(d3.json, world)
+// 	.defer(d3.json, countryNames)
+// 	.defer(d3.json, mapTopo)
+// 	.defer(d3.json, mapGeo)
+// 	// .defer(d3.json, 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson')
+// 	// .defer(d3.json, 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson')
+	
+// 	.await(ready);
 
+ready(world, countryNames, mapTopo, mapGeo)
 
-
-function ready(error, world, names, testTopo, testGeo) {
+function ready(world, names, testTopo, testGeo) {
 	console.log({ world, names, testGeo })
-	if (error) throw error
 
-	const countries = topojson
-		.feature(world, world.objects.countries).features
+
+	const countries = topojson.feature(world, world.objects.countries).features
 		// country names are missing from world data, find them by matching id to name and filter anything missing
 		.map(country => { 
 			const foundName = names.find(n => parseInt(n.id, 10) === parseInt(country.id, 10))
