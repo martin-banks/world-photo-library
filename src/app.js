@@ -16,8 +16,7 @@ const height = window.innerHeight;
 const sens = 0.25;
 const focused;
 
-//Setting projection
-
+// Setting projection
 const projection = d3.geo.orthographic()
 	.scale(Math.min(width, height) * 0.5)
 	.rotate([0, 0])
@@ -99,7 +98,9 @@ function ready(error, world, names, testTopo, testGeo) {
 		svg.selectAll(".focused").classed("focused", focused = false);
 	}
 
+	// TODO - move to globals
 	let locationIndex = 0
+	// TODO - refactor into main content obj and refactor refernces
 	const locations = [
 		{
 			country: countries.filter(country => country.name.toLowerCase().includes('korea'))[0],
@@ -140,6 +141,7 @@ function ready(error, world, names, testTopo, testGeo) {
 		}
 	}
 
+	// TODO - refactor into main template render
 	const sections = document.querySelectorAll('section')
 	sections.forEach(section => {
 		const thisIndex = parseInt(section.getAttribute('data-index'), 10)
@@ -159,6 +161,7 @@ function ready(error, world, names, testTopo, testGeo) {
 		})
 	})
 
+	// render globe background 'water' lement
 	var water = svg.selectAll('path.water')
 		.call(d3.behavior.drag()
 			.origin(getRotationPosition)
@@ -193,11 +196,13 @@ function ready(error, world, names, testTopo, testGeo) {
 		})
 
 	// add circle mapped to projection - tester
+	// TODO - refactor from main content
 	let circleStart = {
 		angle: 50 * locations[locationIndex].circle,
 		origin: locations[locationIndex].country.geometry.coordinates[0][0][0],
 	}
-	console.log({ circleStart })
+
+	// TODO - create factories for SVG templates
 	const myCircle = svg.append('path')
 		.datum(d3.geo
 			.circle()
@@ -211,11 +216,11 @@ function ready(error, world, names, testTopo, testGeo) {
 			.on("drag", dragRotate)
 		)
 
-	//Country focus on option select
+	// Country focus on option select
 	function transition() {
 		const rotate = projection.rotate()
 		const focusedCountry = locations[locationIndex].country
-		const p = d3.geo.centroid(focusedCountry)
+		const p = d3.geo.centroid(focusedCountry) // TODO - remove single latter naming
 		const circleTweenFromAngle = circleStart.angle
 		const newAngle = (50 * locations[locationIndex].circle)
 		circleStart.angle = newAngle
@@ -241,17 +246,19 @@ function ready(error, world, names, testTopo, testGeo) {
 					svg
 						.selectAll("path")
 						.attr("d", path)
+						// TODO - what is this?
 						.classed("focused", (d, i) => d.id == focusedCountry.id ? focused = d : false);
 				};
 			})
 	};
 	transition()
 
-
+	// >>> DEPRICATED ?? >>>>>>>>>>>>>>>
 	function country(cnt, sel) { 
 		for(let i = 0, l = cnt.length; i < l; i++) {
 			if(cnt[i].id == sel.value) {return cnt[i];}
 		}
 	};
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 };

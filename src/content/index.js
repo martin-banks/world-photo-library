@@ -9,7 +9,6 @@ const Content = {
 	},
 
 	parts: [
-		
 		{
 			title: 'Section title',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?'
