@@ -1,4 +1,5 @@
 /* global topojson */
+/* eslint-disable */
 // event needs a bound import to function correctly
 import * as event from 'd3-selection'
 
@@ -11,7 +12,7 @@ const d3 = Object.assign(
 	require('d3-interpolate'),
 )
 d3.event = event
-
+/* eslint-enable */
 
 
 function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
