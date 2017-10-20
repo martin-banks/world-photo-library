@@ -9,12 +9,18 @@ import countryNames from './world-country-names.json'
 import mapTopo from './mapTopo.json'
 import mapGeo from './mapGeo.json'
 
+import * as event from 'd3-selection'
+
 const d3 = Object.assign({}, 
 	require('d3-geo'), 
 	require('d3-selection'),
+	require('d3-drag'),
+	require('d3-transition'),
+	require('d3-interpolate'),
 	// require('d3-queue'),
 	// require('d3-request')
 )
+d3.event = event
 
 console.log(d3)
 
@@ -40,7 +46,7 @@ const path = d3.geoPath()
 	.projection(projection);
 
 // SVG container
-const svg = d3.select("#container")
+const svg = d3.select("#globeContainer")
 	.append("svg")
 	.attr("width", width)
 	.attr("height", height)
@@ -78,8 +84,6 @@ ready(world, countryNames, mapTopo, mapGeo)
 
 function ready(world, names, testTopo, testGeo) {
 	console.log({ world, names, testGeo })
-
-
 	const countries = topojson.feature(world, world.objects.countries).features
 		// country names are missing from world data, find them by matching id to name and filter anything missing
 		.map(country => { 
@@ -102,8 +106,13 @@ function ready(world, names, testTopo, testGeo) {
 	}
 
 	const dragRotate = () => {
+		return
 		if (/iPad|Android|webOS|iPhone|iPod|Blackberry/.test(navigator.userAgent) && !window.MSStream) return
 		const rotate = projection.rotate();
+
+		// TODO - rewrite to support v4
+		// https://stackoverflow.com/questions/43772975/drag-rotate-projection-in-d3-v4
+		// https://jsfiddle.net/usze5ej2/
 		projection.rotate([d3.event.x * sens, -d3.event.y * sens, rotate[2]]);
 		svg.selectAll("path.land").attr("d", path);
 		svg.selectAll("path.circle").attr("d", path);
@@ -155,12 +164,12 @@ function ready(world, names, testTopo, testGeo) {
 	}
 
 	// TODO - refactor into main template render
-	const sections = document.querySelectorAll('section')
-	sections.forEach(section => {
-		const thisIndex = parseInt(section.getAttribute('data-index'), 10)
-		section.querySelector('h1').innerText = locations[thisIndex].country.name
-		isOnStage({ section, thisIndex })
-	})
+	const sections = document.querySelectorAll('[data-type="editorialsection"]')
+	// sections.forEach(section => {
+	// 	const thisIndex = parseInt(section.getAttribute('data-index'), 10)
+	// 	section.querySelector('h1').innerText = locations[thisIndex].country.name
+	// 	isOnStage({ section, thisIndex })
+	// })
 
 	window.addEventListener('scroll', e => {
 		sections.forEach(section => {
@@ -176,8 +185,8 @@ function ready(world, names, testTopo, testGeo) {
 
 	// render globe background 'water' lement
 	var water = svg.selectAll('path.water')
-		.call(d3.behavior.drag()
-			.origin(getRotationPosition)
+		.call(d3.drag()
+			.subject(getRotationPosition)
 			.on("drag", dragRotate))
 
 	// Drawing countries on the globe
@@ -187,12 +196,13 @@ function ready(world, names, testTopo, testGeo) {
 		.append("path")
 		.attr("class", "land")
 		.attr("d", path)
-		.call(d3.behavior // add drag behaviour
+		.call(d3 // add drag behaviour
 			.drag()
-			.origin(getRotationPosition)
+			.subject(getRotationPosition)
 			.on("drag", dragRotate)
 		)
 		.on("mouseover", function(d) {
+			// console.log('mouseOver', d3.mouse())
 			countryTooltip.text(countryById[d.id])
 			.style("left", (d3.event.pageX + 7) + "px")
 			.style("top", (d3.event.pageY - 15) + "px")
@@ -217,23 +227,23 @@ function ready(world, names, testTopo, testGeo) {
 
 	// TODO - create factories for SVG templates
 	const myCircle = svg.append('path')
-		.datum(d3.geo
-			.circle()
-			.origin([0, 0])
-			.angle([circleStart.angle])()
+		.datum(d3.geoCircle()
+			.center([0, 0])
+			.radius([circleStart.angle])()
 		)
 		.attr('class', 'circle')
 		.attr('d', path)
-		.call(d3.behavior.drag()
-			.origin(getRotationPosition)
+		.call(d3.drag()
+			.subject(getRotationPosition)
 			.on("drag", dragRotate)
 		)
 
 	// Country focus on option select
 	function transition() {
 		const rotate = projection.rotate()
+		// console.log('focussed', locations, locationIndex)
 		const focusedCountry = locations[locationIndex].country
-		const p = d3.geo.centroid(focusedCountry) // TODO - remove single latter naming
+		const p = d3.geoCentroid(focusedCountry) // TODO - remove single latter naming
 		const circleTweenFromAngle = circleStart.angle
 		const newAngle = (50 * locations[locationIndex].circle)
 		circleStart.angle = newAngle
@@ -242,13 +252,13 @@ function ready(world, names, testTopo, testGeo) {
 			.tween("scale", function() {
 				const r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
 				const circleTweenAngle = d3.interpolate(circleTweenFromAngle, newAngle)
+				// console.log(locations[locationIndex])
 				const scaleTween = d3.interpolate(projection.scale(), (Math.min(width, height) * locations[locationIndex].scale))
 
 				return function(t) {
 					myCircle
-						.datum(d3.geo
-							.circle()
-							.angle(circleTweenAngle(t))
+						.datum(d3.geoCircle()
+							.radius(circleTweenAngle(t))
 						)
 						.attr("d", path);
 

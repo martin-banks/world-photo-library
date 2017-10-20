@@ -3,7 +3,7 @@ import Content from './content/index'
 
 // Template content
 function sections({ title, text, i }) {
-	return `<section data-index="${i}">
+	return `<section data-index="${i}" data-type="editorialsection">
 		<h1>${title}</h1>
 		<p>${text}</p>
 	</section>`
