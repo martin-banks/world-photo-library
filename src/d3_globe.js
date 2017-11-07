@@ -102,20 +102,20 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 	const locations = [
 		{
 			country: countries.filter(c => c.name.toLowerCase().includes('korea'))[0],
-			scale: 2,
-			circle: 2,
+			scale: 1.5,
+			circle: 0,
 			origin: [100, 100],
 		},
 		{
 			country: countries.filter(c => c.name.toLowerCase().includes('australia'))[0],
 			scale: 0.9,
-			circle: 2.5,
+			circle: 1.1,
 			origin: [100, 100],
 		},
 		{
-			country: countries.filter(c => c.name.toLowerCase().includes('france'))[0],
-			scale: 1.0,
-			circle: 0.8,
+			country: countries.filter(c => c.name.toLowerCase().includes('united kingdom'))[0],
+			scale: 0.5,
+			circle: 1.8,
 			origin: [0, 0],
 		},
 		{
@@ -125,9 +125,15 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 			origin: [100, 100],
 		},
 		{
+			country: countries.filter(c => c.name.toLowerCase().includes('united states'))[0],
+			scale: 0.6,
+			circle: 2,
+			origin: [100, 100],
+		},
+		{
 			country: countries.filter(c => c.name.toLowerCase().includes('brazil'))[0],
 			scale: 0.6,
-			circle: 1,
+			circle: 2.3,
 			origin: [100, 100],
 		},
 	]
@@ -196,15 +202,17 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 	// TODO - refactor from main content
 	const circleStart = {
 		angle: 50 * locations[locationIndex].circle,
-		origin: locations[locationIndex].country.geometry.coordinates[0][0][0],
+		origin: locations[0].country.geometry.coordinates[0][0],
 	}
+
+	console.log(locations[0].country.geometry.coordinates[0][0])
 
 	// TODO - create factories for SVG templates
 	const svgCircle = svg
 		.append('path')
 		.datum(d3
 			.geoCircle()
-			.center([0, 0])
+			.center([-90, 0])
 			.radius([circleStart.angle])()
 		)
 		.attr('class', 'circle')
@@ -237,6 +245,7 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 					svgCircle
 						.datum(d3
 							.geoCircle()
+							.center(circleStart.origin)
 							.radius(circleTweenAngle(t))
 						)
 						.attr('d', path);
