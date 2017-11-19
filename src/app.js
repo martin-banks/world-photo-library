@@ -8,14 +8,10 @@ import world from './content/world-110m.json'
 import countryNames from './content/world-country-names.json'
 import mapTopo from './content/mapTopo.json'
 import mapGeo from './content/mapGeo.json'
-
 import renderGlobe from './d3_globe'
 
 // Start and Render app
 const APP = start({ inner: layout() })
 APP.render()
 
-setTimeout(function() {
-	renderGlobe({ world, names: countryNames, mapTopo, mapGeo })
-	
-}, 1000);
+setTimeout(() => renderGlobe({ world, names: countryNames, mapTopo, mapGeo }), 1000)
