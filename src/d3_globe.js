@@ -1,6 +1,7 @@
 /* global topojson */
 /* eslint-disable */
 // event needs a bound import to function correctly
+import Content from './content/index'
 import * as event from 'd3-selection'
 
 const d3 = Object.assign(
@@ -24,7 +25,7 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 
 	// Setting projection
 	const projection = d3.geoOrthographic()
-		.scale(Math.min(width, height) * 0.5)
+		.scale(Math.min(width, height) * 0)
 		.rotate([0, 0])
 		.translate([width / 2, height / 2])
 		.clipAngle(90)
@@ -99,56 +100,62 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 	// TODO - move to globals
 	let locationIndex = 0
 	// TODO - refactor into main content obj and refactor refernces
-	const locations = [
-		{
-			country: countries.filter(c => c.name.toLowerCase().includes('korea'))[0],
-			scale: 1.5,
-			circle: 0,
-			origin: [100, 100],
-		},
-		{
-			country: countries.filter(c => c.name.toLowerCase().includes('australia'))[0],
-			scale: 0.9,
-			circle: 1.1,
-			origin: [100, 100],
-		},
-		{
-			country: countries.filter(c => c.name.toLowerCase().includes('united kingdom'))[0],
-			scale: 0.5,
-			circle: 1.8,
-			origin: [0, 0],
-		},
-		{
-			country: countries.filter(c => c.name.toLowerCase().includes('arctic'))[0],
-			scale: 0.3,
-			circle: 1.5,
-			origin: [100, 100],
-		},
-		{
-			country: countries.filter(c => c.name.toLowerCase().includes('united states'))[0],
-			scale: 0.6,
-			circle: 2,
-			origin: [100, 100],
-		},
-		{
-			country: countries.filter(c => c.name.toLowerCase().includes('brazil'))[0],
-			scale: 0.6,
-			circle: 2.3,
-			origin: [100, 100],
-		},
-	]
+	// const locations = [
+	// 	{
+	// 		country: countries.filter(c => c.name.toLowerCase().includes('korea'))[0],
+	// 		scale: 1.5,
+	// 		circle: 0,
+	// 		origin: [100, 100],
+	// 	},
+	// 	{
+	// 		country: countries.filter(c => c.name.toLowerCase().includes('australia'))[0],
+	// 		scale: 0.9,
+	// 		circle: 1.1,
+	// 		origin: [100, 100],
+	// 	},
+	// 	{
+	// 		country: countries.filter(c => c.name.toLowerCase().includes('united kingdom'))[0],
+	// 		scale: 0.5,
+	// 		circle: 1.8,
+	// 		origin: [0, 0],
+	// 	},
+	// 	{
+	// 		country: countries.filter(c => c.name.toLowerCase().includes('arctic'))[0],
+	// 		scale: 0.3,
+	// 		circle: 1.5,
+	// 		origin: [100, 100],
+	// 	},
+	// 	{
+	// 		country: countries.filter(c => c.name.toLowerCase().includes('united states'))[0],
+	// 		scale: 0.6,
+	// 		circle: 2,
+	// 		origin: [100, 100],
+	// 	},
+	// 	{
+	// 		country: countries.filter(c => c.name.toLowerCase().includes('brazil'))[0],
+	// 		scale: 0.6,
+	// 		circle: 2.3,
+	// 		origin: [100, 100],
+	// 	},
+	// ]
+	// const headerLocation = Content.header.map
 
-	// >>>>>>> DEPRICATED FROM CANVAS VERSION >>>>>>>>
-	// const isOnStage = ({ section, thisIndex } = {}) => {
-	// 	const { top, height } = section.getBoundingClientRect()
-	// 	if (top < window.innerHeight && top > 0) {
-	// 		locationIndex = thisIndex
-	// 	}
-	// }
-	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	const locations = Content.parts
+		.reduce((output, p, i) => {
+			console.log(output)
+			const update = output
+			const { country } = p.map
+			update.push(p.map)
+			if (!country) {
+				update[i].country = false
+			} else {
+				update[i].country = countries.filter(c => c.name.toLowerCase().includes(country))[0]
+			}
+			return update
+		}, [/* headerLocation */])
+	console.log(locations)
 
-
-	const sections = document.querySelectorAll('[data-type="editorialsection"]')
+	const sections = document.querySelectorAll('[data-type="maplocation"]')
 
 	window.addEventListener('scroll', () => {
 		sections.forEach(section => {
@@ -202,10 +209,10 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 	// TODO - refactor from main content
 	const circleStart = {
 		angle: 50 * locations[locationIndex].circle,
-		origin: locations[0].country.geometry.coordinates[0][0],
+		origin: locations[0].country ? locations[0].country.geometry.coordinates[0][0] : [0, 0],
 	}
 
-	console.log(locations[0].country.geometry.coordinates[0][0])
+	// console.log(locations[0].country.geometry.coordinates[0][0])
 
 	// TODO - create factories for SVG templates
 	const svgCircle = svg
@@ -227,6 +234,8 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 		// const rotate = projection.rotate() // unused
 		// console.log('focussed', locations, locationIndex)
 		const focusedCountry = locations[locationIndex].country
+		console.log(focusedCountry)
+		if (!focusedCountry) return
 		const p = d3.geoCentroid(focusedCountry) // TODO - remove single latter naming
 		const circleTweenFromAngle = circleStart.angle
 		const newAngle = (50 * locations[locationIndex].circle)
@@ -263,14 +272,6 @@ function renderGlobe({ world, names, mapTopo, mapGeo } = {}) {
 			})
 	}
 	transition()
-
-	// >>> DEPRICATED ?? >>>>>>>>>>>>>>>
-	// function country(cnt, sel) {
-	// 	for(let i = 0, l = cnt.length; i < l; i++) {
-	// 		if(cnt[i].id == sel.value) {return cnt[i];}
-	// 	}
-	// };
-	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
 
 
