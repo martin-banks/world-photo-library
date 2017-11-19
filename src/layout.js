@@ -2,10 +2,13 @@ import Styles from './app.sass'
 import Content from './content/index'
 
 // Template content
-function sections({ title, text, i }) {
-	return `<section data-index="${i}" data-type="editorialsection">
-		<h1>${title}</h1>
-		<p>${text}</p>
+function sections({ part, i }) {
+	const { title, text, link, hide } = part
+	return `<section data-index="${i}" data-hide="${hide}" data-type="maplocation">
+		<a href="${link}">
+			<h1>${title}</h1>
+			<p>${text}</p>
+		</a>
 	</section>`
 }
 
@@ -16,7 +19,7 @@ function layout() {
 		<h1>${Content.header.title}</h1>
 		<h3>${Content.header.intro}</h3>
 	</section>
-	${Content.parts.map((p, i) => sections({ title: p.title, text: p.text, i}))}
+	${Content.parts.map((part, i) => sections({ part, i}))}
 	
 	`
 
