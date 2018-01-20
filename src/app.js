@@ -3,13 +3,14 @@
 // import Content from './content/index'
 import start from './startApp'
 import layout from './layout'
-import scaleText from './functions/scaleText'
 
 import world from './content/world-110m.json'
 import countryNames from './content/world-country-names.json'
 import mapTopo from './content/mapTopo.json'
 import mapGeo from './content/mapGeo.json'
 import renderGlobe from './d3_globe'
+import scaleText from './functions/scaleText'
+import tiltOnHover from './functions/tiltOnHover'
 
 // Start and Render app
 const APP = start({ inner: layout() })
@@ -18,3 +19,4 @@ APP.render()
 setTimeout(() => renderGlobe({ world, names: countryNames, mapTopo, mapGeo }), 1000)
 
 scaleText({ type: 'h1' })
+tiltOnHover()

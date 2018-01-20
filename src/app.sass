@@ -38,9 +38,9 @@ section
   // background: rgba(255,255,255, 0.5)
   // width: 50%
   // max-width: 500px
-  margin: 40vh auto
+  margin: 10vh auto
   z-index: 10
-  border: solid 1px lime
+  // border: solid 1px lime
 
 section[data-hide=true]
   height: 0
@@ -52,7 +52,17 @@ h1
   font-family: 'Roboto Condensed', 'Roboto', sans-serif
   letter-spacing: -8px
   text-transform: uppercase
-  color: rgba(255,255,255, 0.4) !important
+  color: rgba(255,255,255, 0.6)
+p
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  color: #fff
+  width: 90%
+  max-width: 1000px
+  margin: 0 auto
+  font-size: 24px
 
 #globeContainer
   position: fixed
@@ -66,11 +76,12 @@ h1
   stroke-width: 1px
 
 .water
-  fill: rgba(0,0,0, 0.4)
+  fill: rgba(0,0,0, 0.1)
 
 .land
-  fill: #ccc
-  stroke: #fff
+  fill: rgba(255,255,255, 0.3)
+  stroke: rgba(255,255,255, 0.2)
+
   stroke-width: 0.7px
   box-shadow: 2px 4px 8px rgba(0,0,0,1)
 

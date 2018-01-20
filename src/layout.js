@@ -13,15 +13,14 @@ function sections({ part, i }) {
 }
 
 function layout() {
-	const template = `
-	<div id="globeContainer"></div>
-	<section class="${Styles.wrapper}">
-		<h1>${Content.header.title}</h1>
-		<h3>${Content.header.intro}</h3>
-	</section>
-	${Content.parts.map((part, i) => sections({ part, i}))}
-	
-	`
+	const template = `<div>
+		<div id="globeContainer"></div>
+		<section class="${Styles.wrapper}">
+			<h1>${Content.header.title}</h1>
+			<h3>${Content.header.intro}</h3>
+		</section>
+		${Content.parts.map((part, i) => sections({ part, i})).join('')}
+	</div>`
 
 	return template
 }
