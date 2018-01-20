@@ -39,7 +39,7 @@ const Content = {
 			},
 		},
 		{
-			title: 'Peru 2008',
+			title: 'Peru',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			link: '#',
 			map: {
@@ -50,7 +50,7 @@ const Content = {
 			},
 		},
 		{
-			title: 'Bolivia 2008',
+			title: 'Bolivia',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			link: '#',
 			map: {
@@ -61,7 +61,7 @@ const Content = {
 			},
 		},
 		{
-			title: 'Chilé 2008',
+			title: 'Chilé',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			link: '#',
 			map: {
@@ -72,7 +72,7 @@ const Content = {
 			},
 		},
 		{
-			title: 'China & Tibet 2009',
+			title: 'China & Tibet',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			link: '#',
 			map: {
@@ -83,7 +83,7 @@ const Content = {
 			},
 		},
 		{
-			title: 'Switzerland 0000',
+			title: 'Switzerland',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			link: '#',
 			map: {
@@ -94,7 +94,7 @@ const Content = {
 			},
 		},
 		{
-			title: 'Nepal 2008',
+			title: 'Nepal',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			link: '#',
 			map: {
@@ -105,7 +105,7 @@ const Content = {
 			},
 		},
 		{
-			title: 'Tanzania 2010',
+			title: 'Tanzania',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			link: '#',
 			map: {
@@ -116,7 +116,7 @@ const Content = {
 			},
 		},
 		{
-			title: 'UK 0000',
+			title: 'UK',
 			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum explicabo quidem eius commodi in assumenda reprehenderit, dolor saepe corrupti exercitationem doloremque, ullam dolorum magnam harum vel molestiae est! Aut, at?',
 			link: '#',
 			map: {
