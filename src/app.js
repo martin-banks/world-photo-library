@@ -3,6 +3,7 @@
 // import Content from './content/index'
 import start from './startApp'
 import layout from './layout'
+import scaleText from './functions/scaleText'
 
 import world from './content/world-110m.json'
 import countryNames from './content/world-country-names.json'
@@ -15,3 +16,5 @@ const APP = start({ inner: layout() })
 APP.render()
 
 setTimeout(() => renderGlobe({ world, names: countryNames, mapTopo, mapGeo }), 1000)
+
+scaleText({ type: 'h1' })
